@@ -4,33 +4,17 @@ Vue.component('dynamic-table', {
 
   props: {
     dataItems: Array,
-    filter: String
+    filter: String,
+    pageSize:{
+      type: Number,
+      default: 20
+    },
   },
-  template: '#dynamic-table',
+  template: '#vue-table',
   methods: {
     clickCell: function (row, column) {
       console.log(row + " " + column);
-      if (this.oldValues[row] !== undefined) {
-
-        if (this.oldValues[row][column] !== undefined) {
-          row[column] = this.oldValues[row][column];
-          delete this.oldValues[row][column];
-          return ;
-
-        }
-      } 
-      else{
-        this.oldValues[row] ={};
-      }
-     this.oldValues[row][column] =   row[column] ;
-     row[column] = "clicked";
-
-    
-
-      //row[column] = this.oldValues[row][column];
-     // 
-
-
+     
     },
     sortBy: function (column) {
       var self = this;
@@ -46,6 +30,15 @@ Vue.component('dynamic-table', {
         b = b[column];
         return (a === b ? 0 : a > b ? 1 : -1) * self.sortOrder[column];
       });
+    },
+    nextPage:function(){
+    
+      this.page =  this.pageCount>(this.page+1)?this.page+1:this.page=0;
+    },
+
+    prevPage:function(){
+     
+      this.page =  this.page<1?this.pageCount:this.page-1;
     }
   },
   data: function () {
@@ -60,16 +53,19 @@ Vue.component('dynamic-table', {
       }
     }
 
-
-    return { sortOrder: {}, columns: columns, sortColumn: '', oldValues: {} };
+    var page = 0;
+    return { sortOrder: {}, columns: columns, sortColumn: '',page:page };
   }
   ,
   computed: {
 
+    pageCount:function(){
+      return  Math.round(this.dataItems.length/this.pageSize-0.5);
+    },
     filtered: function () {
       var self = this;
       if (self.filter === '') {
-        return this.dataItems;
+        return this.dataItems.slice(this.page*this.pageSize,(this.page+1)*this.pageSize);
       } else {
         return this.dataItems.filter(function (item) {
 

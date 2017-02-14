@@ -3,7 +3,7 @@ var data = {
     filter: ''
 }
 
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 132; i++) {
     data.items.push({ id: i, text: Date.now(), name: 'Name' + i });
 }
 

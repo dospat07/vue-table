@@ -7,40 +7,47 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-        crossorigin="anonymous">
-    <script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
-    <script src="vue-table.js"></script>
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+            crossorigin="anonymous">
+            <script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
+            <script src="vue-table.js"></script>
 
-    <script type="text/x-template" id="dynamic-table">
-    <table class='table'>
-     <thead>
-        <tr>
-            <th v-for="column in columns" @click='sortBy(column)'>
-            {{column}}
-            
-            <span  v-if="sortColumn===column" class="glyphicon" :class="sortOrder[column]>0 ?'glyphicon-sort-by-attributes':'glyphicon-sort-by-attributes-alt'" ></span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr v-for="row in filtered">
-            <td v-for="column in columns" @click="clickCell(row,column)">
-                {{row[column]}}
-            </td>
-        </tr>
-    </tbody>
-    </table>
-    </script>
+            <script type="text/x-template" id="vue-table">
+                <div>
+                    <div>
+                        <button v-on:click="prevPage">prev</button>
+                        <button v-on:click="nextPage">next</button>
+                        <label>{{page}}</label>
+                    </div>
+                    <table class='table'>
+                        <thead>
+                            <tr>
+                                <th v-for="column in columns" @click='sortBy(column)'>
+                                    {{column}}
+
+                                    <span v-if="sortColumn===column" class="glyphicon" :class="sortOrder[column]>0 ?'glyphicon-sort-by-attributes':'glyphicon-sort-by-attributes-alt'"></span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="row in filtered">
+                                <td v-for="column in columns" @click="clickCell(row,column)">
+                                    {{row[column]}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </script>
 </head>
 
 <body>
-   
+
     <div id="demo" v-on:keyup.up="change">
         <button v-on:click="change">change</button>
         <input v-model="filter" placeholder="filter">
-        <dynamic-table :data-items="items" :filter="filter">
+        <dynamic-table :data-items="items" :filter="filter" page-size=10>
 
     </div>
     <script src="app.js"></script>
