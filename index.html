@@ -47,7 +47,7 @@
     <div id="demo" v-on:keyup.up="change">
         <button v-on:click="change">change</button>
         <input v-model="filter" placeholder="filter">
-        <dynamic-table :data-items="items" :filter="filter" page-size=10>
+        <dynamic-table :data-items="items" :filter="filter" page-size="5">
 
     </div>
     <script src="app.js"></script>

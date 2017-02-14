@@ -6,8 +6,8 @@ Vue.component('dynamic-table', {
     dataItems: Array,
     filter: String,
     pageSize:{
-      type: Number,
-      default: 20
+      type: String,
+      default: "20"
     },
   },
   template: '#vue-table',
