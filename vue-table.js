@@ -1,4 +1,4 @@
-Vue.component('dynamic-table', {
+Vue.component('vue-table', {
 
   // props: ['dataItems', 'filter'],
 
@@ -7,7 +7,7 @@ Vue.component('dynamic-table', {
     filter: String,
     pageSize:{
       type: String,
-      default: "20"
+      default: Number.MAX_VALUE.toString()
     },
   },
   template: '#vue-table',
@@ -33,12 +33,12 @@ Vue.component('dynamic-table', {
     },
     nextPage:function(){
     
-      this.page =  this.pageCount>(this.page+1)?this.page+1:this.page=0;
+      this.page =  this.pageCount>=(this.page+1)?this.page+1:this.page=1;
     },
 
     prevPage:function(){
      
-      this.page =  this.page<1?this.pageCount:this.page-1;
+      this.page =  this.page<2?this.pageCount:this.page-1;
     }
   },
   data: function () {
@@ -53,19 +53,20 @@ Vue.component('dynamic-table', {
       }
     }
 
-    var page = 0;
+    var page = 1;
     return { sortOrder: {}, columns: columns, sortColumn: '',page:page };
   }
   ,
   computed: {
 
     pageCount:function(){
-      return  Math.round(this.dataItems.length/this.pageSize-0.5);
+     
+      return    Math.ceil(this.dataItems.length/this.pageSize);
     },
     filtered: function () {
       var self = this;
       if (self.filter === '') {
-        return this.dataItems.slice(this.page*this.pageSize,(this.page+1)*this.pageSize);
+        return this.dataItems.slice((this.page-1)*this.pageSize,(this.page)*this.pageSize);
       } else {
         return this.dataItems.filter(function (item) {
 

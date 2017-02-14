@@ -15,10 +15,11 @@
 
             <script type="text/x-template" id="vue-table">
                 <div>
-                    <div>
-                        <button v-on:click="prevPage">prev</button>
-                        <button v-on:click="nextPage">next</button>
-                        <label>{{page}}</label>
+                    <div v-if="pageCount>1">
+                        <button @click="prevPage">prev</button>
+                        <span>page {{page}} of {{pageCount}}</span>
+                        <button @click="nextPage">next</button>
+                         
                     </div>
                     <table class='table'>
                         <thead>
@@ -45,9 +46,9 @@
 <body>
 
     <div id="demo" v-on:keyup.up="change">
-        <button v-on:click="change">change</button>
+        <button @click="change">change</button>
         <input v-model="filter" placeholder="filter">
-        <dynamic-table :data-items="items" :filter="filter" page-size="5">
+        <vue-table :data-items="items" :filter="filter" page-size="12" >
 
     </div>
     <script src="app.js"></script>
