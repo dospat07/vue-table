@@ -30,6 +30,7 @@ Vue.component('vue-table', {
         b = b[column];
         return (a === b ? 0 : a > b ? 1 : -1) * self.sortOrder[column];
       });
+
     },
     nextPage:function(){
     
